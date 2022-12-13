@@ -35,7 +35,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun MainPage(navController: NavHostController, activity: ComponentActivity){
+fun MainPage(navController: NavHostController, activity: ComponentActivity, profileId: Int){
     val isLoading: MutableState<Boolean> = remember { mutableStateOf(false) }
     var client = ApiService.create()
     val coroutineScope = rememberCoroutineScope()
@@ -45,11 +45,10 @@ fun MainPage(navController: NavHostController, activity: ComponentActivity){
         mutableStateOf(listOf(coop1))
     }
     coroutineScope.launch {
-        val coops = client.getCoops(1)
+        val coops = client.getCoops(profileId)
         coopsList.value = coops
     }
     val context = LocalContext.current
-
     CoopsList(coops = coopsList.value, client, coroutineScope, context)
 }
 

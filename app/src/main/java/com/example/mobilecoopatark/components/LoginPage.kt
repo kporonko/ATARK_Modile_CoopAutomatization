@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.mobilecoopatark.Routes
 import com.example.mobilecoopatark.ktor.ApiService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -103,10 +104,11 @@ fun LoginPage(navController:NavHostController, activity: ComponentActivity){
 
 fun logged(email:String, password: String, context: Context, navController: NavHostController, activity: ComponentActivity, coroutineScope: CoroutineScope, client: ApiService){
 
+
     coroutineScope.launch {
         val login = client.login(email, password)
         if (login.profileId >= 0){
-            navController.navigate("Main")
+            navController.navigate(Routes.MainPage.passId(login.profileId))
         }
         else{
             val toast = Toast.makeText(context, "Incorrect email or password", 5000)
