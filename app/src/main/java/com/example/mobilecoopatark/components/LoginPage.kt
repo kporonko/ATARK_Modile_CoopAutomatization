@@ -40,7 +40,6 @@ fun LoginPage(navController:NavHostController, activity: ComponentActivity){
     var client = ApiService.create()
     val coroutineScope = rememberCoroutineScope()
     val isLoading: MutableState<Boolean> = remember { mutableStateOf(false) }
-
     Column(
         modifier = Modifier
             .fillMaxSize()

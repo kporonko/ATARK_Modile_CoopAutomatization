@@ -129,14 +129,25 @@ fun CoopCard(coop: CoopSmallDesc, client : ApiService, coroutineScope: Coroutine
                     textAlign = TextAlign.Right
                 )
                 Spacer(modifier = Modifier.size(5.dp))
-                Text(
-//                    text = "Temperature: " + "20.2C",
-                    text = tempList.value.field1,
-                    color = Color.White,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Right
-                )
+
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(Color.Green)
+                        .size(80.dp, 40.dp)
+                ) {
+                    Text(
+                        text = tempList.value.field1,
+                        color = Color.Black,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Right,
+                        modifier = Modifier
+                            .size(70.dp, 40.dp)
+                    )
+                }
+
+
             }
         }
     }
