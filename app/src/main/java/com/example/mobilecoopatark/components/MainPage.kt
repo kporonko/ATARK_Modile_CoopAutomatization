@@ -58,8 +58,7 @@ fun CoopsList(coops: List<CoopSmallDesc>, client: ApiService, scope: CoroutineSc
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(10.dp),
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
@@ -67,14 +66,8 @@ fun CoopsList(coops: List<CoopSmallDesc>, client: ApiService, scope: CoroutineSc
                 .fillMaxWidth()
                 .background(Color.Black),
             horizontalArrangement = Arrangement.Center) {
-            Text(text = "Coops", textAlign = TextAlign.Center, color = Color.White, fontSize = 34.sp)
+            Text(text = "Coops", textAlign = TextAlign.Center, color = Color.White, fontSize = 34.sp, modifier = Modifier.padding(10.dp, 15.dp))
         }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center) {
-                Text(text = "Until next feeding: " + "TODO", textAlign = TextAlign.Center, color = Color.Black, fontSize = 34.sp)
-            }
         coops.forEach { coop ->
             CoopCard(coop = coop, client, scope, context)
         }
