@@ -2,8 +2,10 @@ package com.example.mobilecoopatark.ktor
 
 import com.example.mobilecoopatark.dto.requests.AddCollectRequest
 import com.example.mobilecoopatark.dto.requests.AddFeedingRequest
+import com.example.mobilecoopatark.dto.responses.ChannelResponse
 import com.example.mobilecoopatark.dto.responses.CoopSmallDesc
 import com.example.mobilecoopatark.dto.responses.LoginResponse
+import com.example.mobilecoopatark.dto.responses.TempResponse
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.request.*
@@ -66,6 +68,16 @@ class ApiServiceImpl(
         }
         catch(e: Exception) {
             HttpStatusCode.BadRequest
-        }    }
+        }
+    }
+
+    override suspend fun getTemp(id: String, key: String): TempResponse {
+        return try {
+            client.get{url("https://api.thingspeak.com/channels/$id/fields/1.json?api_key=$key&results=1")}
+        }catch(e: Exception) {
+            println("Error: ${e.message}")
+            TempResponse(feeds = emptyList(), channel = ChannelResponse(id = 0, name = "", description = "", latitude= "", longitude = "", field1 = "", created_at = "", updated_at = "", last_entry_id = 0))
+        }
+    }
 
 }

@@ -27,6 +27,7 @@ import androidx.navigation.NavHostController
 import com.example.mobilecoopatark.dto.requests.AddCollectRequest
 import com.example.mobilecoopatark.dto.requests.AddFeedingRequest
 import com.example.mobilecoopatark.dto.responses.CoopSmallDesc
+import com.example.mobilecoopatark.dto.responses.TempResponseItem
 import com.example.mobilecoopatark.ktor.ApiService
 import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
@@ -39,7 +40,7 @@ fun MainPage(navController: NavHostController, activity: ComponentActivity, prof
     val isLoading: MutableState<Boolean> = remember { mutableStateOf(false) }
     var client = ApiService.create()
     val coroutineScope = rememberCoroutineScope()
-    val coop1 = CoopSmallDesc(id = 1, name = "Aboba Coop", eggsByWeek = 23, thermometerApiKey = "", thermometerIp = "")
+    val coop1 = CoopSmallDesc(id = -1, name = "Aboba Coop", eggsByWeek = 23, thermometerApiKey = "", thermometerIp = "")
 
     val coopsList = remember {
         mutableStateOf(listOf(coop1))
@@ -61,7 +62,6 @@ fun CoopsList(coops: List<CoopSmallDesc>, client: ApiService, scope: CoroutineSc
             .padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -83,6 +83,18 @@ fun CoopsList(coops: List<CoopSmallDesc>, client: ApiService, scope: CoroutineSc
 
 @Composable
 fun CoopCard(coop: CoopSmallDesc, client : ApiService, coroutineScope: CoroutineScope, context: Context){
+
+    var temp = TempResponseItem(created_at = "", entry_id = 1, field1 = "0")
+
+    val tempList = remember {
+        mutableStateOf(temp)
+    }
+
+    coroutineScope.launch {
+        if(coop.id!=-1){
+            tempList.value = client.getTemp(coop.thermometerIp, coop.thermometerApiKey).feeds[0]
+        }
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -125,7 +137,8 @@ fun CoopCard(coop: CoopSmallDesc, client : ApiService, coroutineScope: Coroutine
                 )
                 Spacer(modifier = Modifier.size(5.dp))
                 Text(
-                    text = "Temperature: " + "20.2C",
+//                    text = "Temperature: " + "20.2C",
+                    text = tempList.value.field1,
                     color = Color.White,
                     fontWeight = FontWeight.Medium,
                     fontSize = 16.sp,

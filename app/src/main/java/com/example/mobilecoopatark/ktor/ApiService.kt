@@ -4,6 +4,7 @@ import com.example.mobilecoopatark.dto.requests.AddCollectRequest
 import com.example.mobilecoopatark.dto.requests.AddFeedingRequest
 import com.example.mobilecoopatark.dto.responses.CoopSmallDesc
 import com.example.mobilecoopatark.dto.responses.LoginResponse
+import com.example.mobilecoopatark.dto.responses.TempResponse
 import io.ktor.client.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.features.json.*
@@ -17,6 +18,7 @@ interface ApiService {
     suspend fun login(email: String, password: String): LoginResponse
     suspend fun addFeeding(feedingRequest: AddFeedingRequest): HttpStatusCode
     suspend fun addCollect(feedingRequest: AddCollectRequest): HttpStatusCode
+    suspend fun getTemp(id: String, key: String): TempResponse
 
     companion object {
         fun create(): ApiService {
